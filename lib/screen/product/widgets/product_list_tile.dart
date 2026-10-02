@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/widgets/favorite_button.dart';
 import '../../../core/widgets/product_network_image.dart';
 import '../../../domain/entities/product.dart';
 import '../../routes/app_routes.dart';
@@ -51,7 +52,25 @@ class ProductListTile extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star_rounded,
+                          size: 16,
+                          color: colorScheme.secondary,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          product.rating.toStringAsFixed(1),
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
                     Text(
                       product.formattedPrice,
                       style: textTheme.titleLarge?.copyWith(
@@ -62,7 +81,7 @@ class ProductListTile extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, color: colorScheme.outline),
+              FavoriteButton(product: product),
             ],
           ),
         ),

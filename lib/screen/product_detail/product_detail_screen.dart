@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../core/state/view_status.dart';
 import '../../core/widgets/app_error.dart';
 import '../../core/widgets/app_loading.dart';
+import '../../core/widgets/favorite_button.dart';
 import '../../domain/entities/product.dart';
 import 'controller/product_detail_controller.dart';
 import 'widgets/product_image_gallery.dart';
@@ -14,7 +15,16 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Product details')),
+      appBar: AppBar(
+        title: const Text('Product details'),
+        actions: [
+          Obx(() {
+            final product = controller.product.value;
+            if (product == null) return const SizedBox.shrink();
+            return FavoriteButton(product: product);
+          }),
+        ],
+      ),
       body: Obx(() {
         switch (controller.viewStatus.value) {
           case ViewStatus.loading:
@@ -110,6 +120,8 @@ class _ProductDetailBody extends StatelessWidget {
                   _RatingChip(rating: product.rating),
                 ],
               ),
+              const SizedBox(height: 12),
+              _StockChip(stock: product.stock, inStock: product.inStock),
               const SizedBox(height: 24),
               Text('Description', style: textTheme.titleMedium),
               const SizedBox(height: 8),
@@ -121,6 +133,37 @@ class _ProductDetailBody extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _StockChip extends StatelessWidget {
+  const _StockChip({required this.stock, required this.inStock});
+
+  final int stock;
+  final bool inStock;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final color = inStock ? colorScheme.primary : colorScheme.error;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          inStock ? Icons.check_circle_outline : Icons.remove_circle_outline,
+          size: 18,
+          color: color,
+        ),
+        const SizedBox(width: 6),
+        Text(
+          inStock ? 'In stock ($stock available)' : 'Out of stock',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: color,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],

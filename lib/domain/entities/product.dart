@@ -5,6 +5,7 @@ class Product {
     required this.description,
     required this.price,
     required this.rating,
+    required this.stock,
     required this.thumbnail,
     required this.images,
     this.brand,
@@ -16,10 +17,13 @@ class Product {
   final String description;
   final double price;
   final double rating;
+  final int stock;
   final String thumbnail;
   final List<String> images;
   final String? brand;
   final String? category;
 
   String get formattedPrice => '\$${price.toStringAsFixed(2)}';
+
+  bool get inStock => stock > 0;
 }

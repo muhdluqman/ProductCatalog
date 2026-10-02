@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../favorites/binding/favorites_binding.dart';
 import '../product/binding/product_binding.dart';
 import '../product/product_screen.dart';
 import '../product_detail/binding/product_detail_binding.dart';
@@ -13,7 +14,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.productList,
       page: () => const ProductScreen(),
-      binding: ProductBinding(),
+      bindings: [FavoritesBinding(), ProductBinding()],
     ),
     GetPage(
       name: AppRoutes.productDetail,

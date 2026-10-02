@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 import 'core/di/injection.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupDependencies();
+  await setupDependencies();
   runApp(const ProductCatalogApp());
 }
